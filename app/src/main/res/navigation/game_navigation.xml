@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/game_navigation"
+    app:startDestination="@id/gameFragment">
+
+    <fragment
+        android:id="@+id/gameFragment"
+        android:name="com.example.wordsearch.gameFragment.GameFragment"
+        android:label="@string/fragment_game_label" />
+
+    <fragment
+        android:id="@+id/aboutGameFragment"
+        android:name="com.example.wordsearch.AboutGameFragment"
+        android:label="@string/fragment_about_game_label" />
+</navigation>

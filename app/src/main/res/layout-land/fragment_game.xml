@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="gameViewModel"
+            type="com.example.wordsearch.gameFragment.GameViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"/>
+
+        <ScrollView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/search_words_label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/layout_horizontal_margin_16dp"
+                    android:gravity="center"
+                    android:text="@string/word_search_label"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/game_chip_group"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/chip_padding_12dp"
+                    android:paddingTop="@dimen/chip_padding_12dp"
+                    android:paddingEnd="@dimen/chip_padding_12dp"
+                    android:paddingBottom="0dp"
+                    app:chipSpacingHorizontal="@dimen/chip_vertical_space_8dp"
+                    app:chipSpacingVertical="@dimen/chip_horizontal_space_8dp">
+
+                </com.google.android.material.chip.ChipGroup>
+
+
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+</layout>

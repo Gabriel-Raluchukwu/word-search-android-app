@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="gameViewModel"
+            type="com.example.wordsearch.gameFragment.GameViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <GridView
+            android:id="@+id/game_grid_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnWidth="@dimen/grid_column_width"
+            android:background="@color/gridViewBackgroundColor"
+            android:gravity="center"
+            android:numColumns="@{gameViewModel.gridRowLiveData}"
+            android:stretchMode="spacingWidthUniform"
+            android:horizontalSpacing="1dp"
+            android:verticalSpacing="1dp"
+            app:layout_constraintBottom_toTopOf="@id/search_container"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/search_container"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@color/chipGroupBackground"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="2.5:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <TextView
+                android:id="@+id/search_words_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:gravity="center"
+                android:text="@string/word_search_label"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                tools:text="Word Search" />
+
+            <ScrollView
+                android:id="@+id/word_scroll_view"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="0dp">
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/game_chip_group"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/chip_padding_12dp"
+                    android:paddingTop="@dimen/chip_padding_12dp"
+                    android:paddingEnd="@dimen/chip_padding_12dp"
+                    android:paddingBottom="0dp"
+                    app:chipSpacingHorizontal="@dimen/chip_vertical_space_8dp"
+                    app:chipSpacingVertical="@dimen/chip_horizontal_space_8dp">
+
+                    <!--                <com.google.android.material.chip.Chip-->
+                    <!--                    style="@style/Widget.MaterialComponents.Chip.Choice"-->
+                    <!--                    android:layout_width="wrap_content"-->
+                    <!--                    android:layout_height="wrap_content"-->
+                    <!--                    android:text="@string/dummy_chip_text" />-->
+
+                    <!--                <com.google.android.material.chip.Chip-->
+                    <!--                    style="@style/Widget.MaterialComponents.Chip.Choice"-->
+                    <!--                    android:layout_width="wrap_content"-->
+                    <!--                    android:layout_height="wrap_content"-->
+                    <!--                    android:text="@string/dummy_chip_text" />-->
+
+                </com.google.android.material.chip.ChipGroup>
+
+            </ScrollView>
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
