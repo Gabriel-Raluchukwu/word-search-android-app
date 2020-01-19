@@ -21,6 +21,7 @@ import timber.log.Timber
 
 class GameFragment : Fragment() {
     private lateinit var gameViewModel : GameViewModel
+    private val selectedViews = mutableListOf<View>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,7 +38,7 @@ class GameFragment : Fragment() {
 
         val wordList = gameViewModel.searchWords.value ?: emptyList()
         populateSearchWords(wordList,gameFragmentBinding)
-        test(gameFragmentBinding,gameViewModel)
+        populateGrid(gameFragmentBinding)
 
         gameViewModel.numberOfFoundWords.observe(this, Observer {num ->
             if(num == 3){
@@ -61,7 +62,7 @@ class GameFragment : Fragment() {
         }
     }
 
-    private fun test(binding: FragmentGameBinding,viewModel:GameViewModel){
+    private fun populateGrid(binding: FragmentGameBinding){
         var number = 0
         val dummyData = mutableListOf<Char>()
         for(i in 1..144){
@@ -69,7 +70,6 @@ class GameFragment : Fragment() {
             number = i
         }
 
-        val selectedViews = mutableListOf<View>()
         Toast.makeText(context,"$number grid cells displayed",Toast.LENGTH_SHORT).show()
         gameViewModel.gridCellList.observe(this, Observer{gridList ->
             val adapter = GameAdapter(this.context!!,gridList)
@@ -77,17 +77,18 @@ class GameFragment : Fragment() {
         })
 
 
-        binding.gameGridView?.setOnItemClickListener{parent, view, position, id ->
+        binding.gameGridView?.setOnItemClickListener{_, view, position, id ->
             selectedViews.add(view)
             gameViewModel.buildSelectedCharacters((view as? TextView)?.text?.toString() ?: "0",position)
             view.setBackgroundColor(ContextCompat.getColor(context!!,R.color.lightGreen))
-            val letter = (view as TextView)?.text
-            showToast(context!!,"${(view as? TextView)?.text  ?: "Not Found"} clicked, position: ${position}, id: $id")
+           // showToast(context!!,"${(view as TextView)?.text  ?: "Not Found"} clicked, position: ${position}, id: $id")
         }
 
        gameViewModel.isWord.observe(this, Observer { isWord ->
             if(!isWord){
+                Timber.i("IS NOT A WORD SO RESET")
                 selectedViews.forEach {
+                    Timber.d("Changed background of View ${(it as? TextView)?.text}")
                     it.setBackgroundColor(ContextCompat.getColor(context!!,R.color.whiteColor))
                 }
                 selectedViews.clear()
@@ -114,10 +115,14 @@ class GameFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId){
             R.id.reload_menu_item -> {
-                //TODO: Call GameFragmentViewModel to shuffle the chip items and reset the Gridlayout
                 Timber.i("Refresh Icon menu item clicked")
+                selectedViews.forEach {
+                    it.setBackgroundColor(ContextCompat.getColor(context!!,R.color.whiteColor))
+                }
+                selectedViews.clear()
                 gameViewModel.refreshGame()
-                 true
+
+                true
             }
             else -> { NavigationUI.onNavDestinationSelected(item, view!!.findNavController())
                         || super.onOptionsItemSelected(item)

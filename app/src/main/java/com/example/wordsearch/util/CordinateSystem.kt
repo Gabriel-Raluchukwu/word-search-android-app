@@ -50,7 +50,7 @@ class CoordinateSystem  constructor(val gridRow: Int){
 
     fun canPlaceCharacterBottom(position: Int,occupiedCells: List<Int>):Boolean{
         return when(position + gridRow){
-             -1 -> false
+            -1 -> false
              in cornerPoints -> false
              in boundaryPoints -> false
              in occupiedCells -> false

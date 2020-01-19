@@ -6,7 +6,7 @@ import com.example.wordsearch.util.CoordinateSystem
 import com.example.wordsearch.util.Direction
 import com.example.wordsearch.util.RelativePosition
 
-class GridCell (val value:Char?, val index:Int){
+class GridCell (var value:Char?, var index:Int){
 
     private val gridRow = 12
 
@@ -145,7 +145,7 @@ class GridCell (val value:Char?, val index:Int){
         }
     }
 
-    fun determinePlacementDirection():Direction{
+    private fun determinePlacementDirection():Direction{
 
         val quadrantOne = mutableListOf(Direction.RIGHT,Direction.DOWN)
         val quadrantTwo = mutableListOf(Direction.LEFT,Direction.DOWN)
@@ -165,7 +165,7 @@ class GridCell (val value:Char?, val index:Int){
             rowNumber >= 7 && columnNumber <= 6 -> quadrantThree.random()
             //Fourth Quadrant
             rowNumber >= 7 && columnNumber >=7 -> quadrantFour.random()
-            else -> Direction.DOWN
+            else -> Direction.values()[(0 .. 3).random()]
         }
     }
 }

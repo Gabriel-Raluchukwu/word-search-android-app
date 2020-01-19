@@ -9,4 +9,8 @@
     <dimen name="chip_padding_12dp">12dp</dimen>
 
     <dimen name="grid_column_width">28dp</dimen>
+    <dimen name="land_grid_column_width">32dp</dimen>
+
+    <dimen name="grid_view_spacing">1dp</dimen>
+    <dimen name="image_bottom_padding">28dp</dimen>
 </resources>

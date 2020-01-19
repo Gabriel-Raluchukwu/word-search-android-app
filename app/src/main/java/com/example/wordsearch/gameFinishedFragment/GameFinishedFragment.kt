@@ -23,10 +23,10 @@ class GameFinishedFragment : Fragment() {
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-        viewModel = ViewModelProviders.of(this).get(GameFinishedViewModel::class.java)
-    }
+//    override fun onActivityCreated(savedInstanceState: Bundle?) {
+//        super.onActivityCreated(savedInstanceState)
+//
+//        viewModel = ViewModelProviders.of(this).get(GameFinishedViewModel::class.java)
+//    }
 
 }

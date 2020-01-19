@@ -49,7 +49,7 @@ class GameViewModel : ViewModel(){
     val gridCellList: LiveData<List<Char>>
         get() = _gridCellList
 
-    private val alphabets = mutableListOf('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z')
+    private val alphabets = mutableListOf('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z')
 
     //Starting with sorted list of words
     private val wordList = listOf("objectivec","variable","inject","kotlin","mobile","swift","java","test")
@@ -72,7 +72,10 @@ class GameViewModel : ViewModel(){
     fun refreshGame(){
         foundWords.clear()
         _occupiedCells.clear()
-        _unOccupiedCells.clear()
+        _unOccupiedCells.apply {
+            clear()
+            addAll(getAllCellPositions())
+        }
         _numberOfFoundWords.value = 0
         _gridCellList.value = populateGrid()
     }
@@ -90,7 +93,7 @@ class GameViewModel : ViewModel(){
             wordGridList.addAll(placement)
         }
        wordPositionPair.addAll( List(gridSize){ num ->
-           Pair(num,wordGridList.find {cell -> cell.index == num}?.value ?: '0')//TODO: CHANGE 0 to random alphabets
+           Pair(num,wordGridList.find {cell -> cell.index == num}?.value ?: alphabets.random())//TODO: CHANGE 0 to random alphabets
        })
         return List(gridSize){ wordPositionPair[it].second }
     }
@@ -101,7 +104,7 @@ class GameViewModel : ViewModel(){
         builder.append(char)
         wordList.forEach { word ->
             var _word = word.toUpperCase()
-            var test1 = builder.length
+            //var test1 = builder.length
             val equalityTest =
                 if(builder.length > _word.length){ false } else { (builder.toString()) == _word.substring(0 until (builder.length - 0)) }
             if(equalityTest) test = equalityTest
@@ -112,18 +115,19 @@ class GameViewModel : ViewModel(){
                 _isCompleteWord.value = true
             }
         }
-        _isWord.value = test
         if(!test) {
+            Timber.d("Current Character: $character. isWord -> ${_isWord.value}")
             clearSelectedCharactersStringBuilder()
             builder.append(character)
         }
+        _isWord.value = test
     }
 
     fun onWordCompleted(){
         _isCompleteWord.value = false
     }
 
-    fun clearSelectedCharactersStringBuilder(){
+    private fun clearSelectedCharactersStringBuilder(){
         builder.clear()
     }
 
@@ -137,9 +141,7 @@ class GameViewModel : ViewModel(){
     }
 
     private fun selectRandomPosition(word: String):Int{
-        val gridSize = gridRow * gridRow
-        val random = Random()
-        return if(word.length >= 9 ) CoordinateSystem.getBoundaryPoints(gridRow).shuffled().first() else random.nextInt(gridSize)
+        return if(word.length >= 9 || word.length < 5) CoordinateSystem.getBoundaryPoints(gridRow).shuffled().first() else _unOccupiedCells.random()
     }
 
     private fun generate(word:String) : List<GridCell>?{
@@ -153,13 +155,15 @@ class GameViewModel : ViewModel(){
             status = false
         }
         else{
-            var initialCell = GridCell(charArray[0],position)
-            gridList.add(initialCell)
+
+            var initialCell = GridCell('-',position)
             val direction = initialCell.placementDirection()
+            val characterArray = if(direction == Direction.LEFT) charArray.reversed() else charArray
+            initialCell.value = characterArray[0]
+            gridList.add(initialCell)
             lastCell = gridList.first()
-            val characterArray = if(direction == Direction.LEFT) charArray.subList(1,word.lastIndex).reversed() else charArray.subList(1,word.length)
-            for(character in characterArray){
-                var canPlace = placeCharacter(character,lastCell,direction)
+            for(character in characterArray.subList(1,word.length)){
+                var canPlace = placeCharacter(lastCell,direction)
                if(canPlace.first){
                    var cell = GridCell(character,canPlace.second)
                    gridList.add(cell)
@@ -176,7 +180,7 @@ class GameViewModel : ViewModel(){
         return if(status){gridList} else {null}
     }
 
-    private fun placeCharacter(char:Char, lastCell:GridCell, direction: Direction): Pair<Boolean,Int>{
+    private fun placeCharacter( lastCell:GridCell, direction: Direction): Pair<Boolean,Int>{
         val neighbourCells = lastCell.getBoundaryGridCells()
         return when(direction){
             Direction.UP -> {
@@ -198,7 +202,3 @@ class GameViewModel : ViewModel(){
         }
     }
 }
-
-
-// Get each word
-// Select Random quadrant and direction and start placing alphabets
