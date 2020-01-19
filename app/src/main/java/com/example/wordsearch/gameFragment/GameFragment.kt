@@ -71,8 +71,10 @@ class GameFragment : Fragment() {
 
         val selectedViews = mutableListOf<View>()
         Toast.makeText(context,"$number grid cells displayed",Toast.LENGTH_SHORT).show()
-        val adapter = GameAdapter(this.context!!,gameViewModel.gridCell.value ?: dummyData)
-        binding.gameGridView?.adapter = adapter
+        gameViewModel.gridCellList.observe(this, Observer{gridList ->
+            val adapter = GameAdapter(this.context!!,gridList)
+            binding.gameGridView?.adapter = adapter
+        })
 
 
         binding.gameGridView?.setOnItemClickListener{parent, view, position, id ->
@@ -114,6 +116,7 @@ class GameFragment : Fragment() {
             R.id.reload_menu_item -> {
                 //TODO: Call GameFragmentViewModel to shuffle the chip items and reset the Gridlayout
                 Timber.i("Refresh Icon menu item clicked")
+                gameViewModel.refreshGame()
                  true
             }
             else -> { NavigationUI.onNavDestinationSelected(item, view!!.findNavController())

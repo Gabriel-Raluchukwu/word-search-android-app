@@ -16,7 +16,6 @@ class GameViewModel : ViewModel(){
     private val gridRow = 12
     private val coordinateSystem = CoordinateSystem(gridRow)
     private val foundWords = mutableListOf<String>()
-    private val selectedWordBuilder:String = ""
     private val builder = StringBuilder()
 
     //Occupied GridCell Indices
@@ -47,7 +46,7 @@ class GameViewModel : ViewModel(){
         get() =  _gridRowLiveData
 
     private val _gridCellList = MutableLiveData<List<Char>>()
-    val gridCell: LiveData<List<Char>>
+    val gridCellList: LiveData<List<Char>>
         get() = _gridCellList
 
     private val alphabets = mutableListOf('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z')
@@ -68,6 +67,14 @@ class GameViewModel : ViewModel(){
     override fun onCleared() {
         super.onCleared()
         Timber.i("ViewModel cleared")
+    }
+
+    fun refreshGame(){
+        foundWords.clear()
+        _occupiedCells.clear()
+        _unOccupiedCells.clear()
+        _numberOfFoundWords.value = 0
+        _gridCellList.value = populateGrid()
     }
 
     private fun populateGrid(): List<Char>{
@@ -94,18 +101,22 @@ class GameViewModel : ViewModel(){
         builder.append(char)
         wordList.forEach { word ->
             var _word = word.toUpperCase()
-           // var test1 = _word.substring(0 until (builder.length - 0))
-            val equalityTest = (builder.toString()) == _word.substring(0 until (builder.length - 0))
+            var test1 = builder.length
+            val equalityTest =
+                if(builder.length > _word.length){ false } else { (builder.toString()) == _word.substring(0 until (builder.length - 0)) }
             if(equalityTest) test = equalityTest
 
-            if(builder.toString() == word){
+            if(builder.toString().toLowerCase() == word){
                 foundWords.add(word)
                 _numberOfFoundWords.value?.plus(1)
                 _isCompleteWord.value = true
             }
         }
         _isWord.value = test
-        if(!test) clearSelectedCharactersStringBuilder()
+        if(!test) {
+            clearSelectedCharactersStringBuilder()
+            builder.append(character)
+        }
     }
 
     fun onWordCompleted(){
