@@ -37,6 +37,10 @@ class GameViewModel : ViewModel(){
     val isWord:LiveData<Boolean>
         get() = _isWord
 
+    private val _isCompleteWord =  MutableLiveData<Boolean>()
+    val isCompleteWord:LiveData<Boolean>
+        get() = _isCompleteWord
+
     //Grid is a N * N matrix where N = number_of_rows = number_of_columns = 12
     private val _gridRowLiveData = MutableLiveData<Int>()
     val gridRowLiveData: LiveData<Int>
@@ -56,6 +60,7 @@ class GameViewModel : ViewModel(){
         _gridCellList.value = populateGrid()
         _gridRowLiveData.value = 12
         _isWord.value = false
+        _isCompleteWord.value = false
         _numberOfFoundWords.value = 0
         Timber.i("Created GameViewModel class")
     }
@@ -64,8 +69,6 @@ class GameViewModel : ViewModel(){
         super.onCleared()
         Timber.i("ViewModel cleared")
     }
-
-
 
     private fun populateGrid(): List<Char>{
         val gridSize = gridRow * gridRow
@@ -86,21 +89,32 @@ class GameViewModel : ViewModel(){
     }
 
     fun buildSelectedCharacters(character:String,position:Int){
+        var test: Boolean = false
         var char = character.toCharArray().first()
         builder.append(char)
         wordList.forEach { word ->
-            val equalityTest = (builder.toString()) == (word.substring(builder.length))
-            _isWord.value = equalityTest
+            var _word = word.toUpperCase()
+           // var test1 = _word.substring(0 until (builder.length - 0))
+            val equalityTest = (builder.toString()) == _word.substring(0 until (builder.length - 0))
+            if(equalityTest) test = equalityTest
 
             if(builder.toString() == word){
                 foundWords.add(word)
                 _numberOfFoundWords.value?.plus(1)
+                _isCompleteWord.value = true
             }
         }
-
+        _isWord.value = test
+        if(!test) clearSelectedCharactersStringBuilder()
     }
 
+    fun onWordCompleted(){
+        _isCompleteWord.value = false
+    }
 
+    fun clearSelectedCharactersStringBuilder(){
+        builder.clear()
+    }
 
     private fun splitStringToCharacters(word:String): List<Char>{
         return word.toCharArray().toList()

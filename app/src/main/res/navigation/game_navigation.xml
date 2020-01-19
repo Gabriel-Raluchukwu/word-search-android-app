@@ -6,10 +6,20 @@
     <fragment
         android:id="@+id/gameFragment"
         android:name="com.example.wordsearch.gameFragment.GameFragment"
-        android:label="@string/fragment_game_label" />
+        android:label="@string/fragment_game_label" >
+        <action
+            android:id="@+id/action_gameFragment_to_gameFinishedFragment"
+            app:destination="@id/gameFinishedFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/aboutGameFragment"
         android:name="com.example.wordsearch.AboutGameFragment"
         android:label="@string/fragment_about_game_label" />
+
+    <fragment
+        android:id="@+id/gameFinishedFragment"
+        android:name="com.example.wordsearch.gameFinishedFragment.GameFinishedFragment"
+        android:label="GameFinishedFragment" />
+
 </navigation>

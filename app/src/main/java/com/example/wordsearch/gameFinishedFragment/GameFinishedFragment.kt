@@ -6,15 +6,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import com.example.wordsearch.R
+import com.example.wordsearch.databinding.GameFinishedFragmentBinding
 
 
 class GameFinishedFragment : Fragment() {
-
-    companion object {
-        fun newInstance() =
-            GameFinishedFragment()
-    }
 
     private lateinit var viewModel: GameFinishedViewModel
 
@@ -22,13 +19,14 @@ class GameFinishedFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.game_finished_fragment, container, false)
+        val binding:GameFinishedFragmentBinding = DataBindingUtil.inflate(inflater,R.layout.game_finished_fragment,container,false)
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
         viewModel = ViewModelProviders.of(this).get(GameFinishedViewModel::class.java)
-        // TODO: Use the ViewModel
     }
 
 }
