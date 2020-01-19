@@ -1,3 +1,33 @@
 <resources>
     <string name="app_name">Word Search</string>
+
+
+
+    <string name="fragment_about_game_label">About word cross</string>
+    <string name="fragment_game_label">Word Cross</string>
+
+
+    <string name="search_words_label">Search Words</string>
+
+    <string name="dummy_chip_text">Chip Dummy Text</string>
+    <string name="word_search_label">Word Search</string>
+
+
+    <string name="menu_item_about">About Game</string>
+    <string name="menu_item_refresh">Refresh Icon</string>
+
+    <string name="game_won">YOU WIN</string>
+    <string name="congratulations">Congratulations</string>
+
+    <string name="about_word_cross">About Word Cross</string>
+    <string name="about_word_cross_body">
+        Word search mobile app for Android.\nThe word search should have a 12x12 grid.\nIt includes the following words:\n - Swift,\n - Kotlin,\n - ObjectiveC,\n - Variable,\n - Java,\n - Mobile,\n - Test,\n - Inject.\n\n
+        RULES:\n
+        Search for each word in the grid.\n
+        Select all words to win the game
+        \n\n\n
+        ENJOY!!!
+    </string>
+
+    <string name="cnt_description_game_finished_image">android logo</string>
 </resources>
