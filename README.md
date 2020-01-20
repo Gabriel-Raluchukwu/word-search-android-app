@@ -10,14 +10,14 @@ Select Words in the word search game. find all words to win the game
 
 ### Pictures
 * No words found
-![Alt text](Screenshot_2020-01-20-00-00-11-200_com.example.wordsearch "No Words Found")
+![Alt text](images/Screenshot_com.example.wordsearch_no_words_found.png?raw=true "No Words Found")
 
 * Some words found
-![Alt text](Screenshot_2020-01-20-00-02-29-472_com.example.wordsearch "Some Words Found")
-![Alt text](Screenshot_2020-01-20-00-03-30-029_com.example.wordsearch "Some Words Found")
+![Alt text](images/Screenshot_com.example.wordsearch_some_words_found_1.png?raw=true "Some Words Found")
+![Alt text](images/Screenshot_com.example.wordsearch_some_words_found_2.png?raw=true "Some Words Found")
 
 * All words found - Game Completed
-![Alt text](Screenshot_2020-01-20-00-42-54-740_game_won "Game Won")
+![Alt text](Screenshot_2020-01-20-00-42-54-740_game_won.png?raw=true "Game Won")
 
 
 
